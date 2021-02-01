@@ -1,38 +1,163 @@
 .App {
-  text-align: center;
+  margin: 50px 20px;
+  display: flex;
+  justify-content: center;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.CardTop {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.CardTop .portfolio {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+  align-items: center;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.CardTop .portfolio .title {
+  display: flex;
+  align-items: center;
+}
+.CardTop .portfolio .title .MuiAvatar-root {
+  height: 60px;
+  width: 60px;
+}
+header .MuiAvatar-root {
+  width: 40px !important;
+  height: 40px !important;
+}
+.CardTop .portfolio .title h5 {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  font-size: 18px;
+  margin: 0px 12px 0px;
+  font-weight: bold;
 }
-
-.App-link {
-  color: #61dafb;
+.CardTop .portfolio .title h5 span {
+  font-size: 1rem;
+  color: #888;
+  font-weight: normal;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.CardTop .titles {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.MuiListItemSecondaryAction-root {
+  right: 0 !important;
+}
+.MuiListItem-secondaryAction {
+  padding: 0px !important;
+}
+.MuiCardContent-root {
+  padding: 24px !important;
+}
+.MuiDialogActions-spacing {
+  justify-content: center !important;
+  padding: 24px !important;
+}
+.MuiFormControl-root,
+.MuiInput-formControl {
+  width: 280px;
+}
+.MuiAvatar-colorDefault {
+  color: #3f51b5 !important;
+  width: 50px !important;
+  height: 50px !important;
+  margin-right: 14px;
+  background-color: #c5cbe9 !important;
+}
+.MuiAvatar-colorDefault h5 {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 2;
+  text-overflow: ellipsis;
+  margin: 0;
+}
+.MuiListItem-container:not(:last-child) .MuiListItemText-multiline {
+  border-bottom: 1px solid #ddd;
+}
+.MuiListItemText-multiline {
+  padding: 4px 4px 8px;
+}
+.MuiListItem-root svg {
+  margin-right: 8px;
+}
+@media only screen and (max-width: 1024px) {
+  .main-cont {
+    flex-direction: column-reverse;
   }
-  to {
-    transform: rotate(360deg);
+  .main-cont .MuiGrid-item {
+    margin: 12px 0px;
   }
+}
+.darkMode text {
+  fill: #ffffff !important;
+}
+.darkMode .apexcharts-tooltip.apexcharts-theme-light .apexcharts-tooltip-title,
+.darkMode .apexcharts-tooltip-series-group,
+.darkMode .apexcharts-menu.apexcharts-menu-open {
+  color: #000000 !important;
+}
+.darkMode button {
+  color: #ffffff !important;
+}
+.darkMode .CardTop .portfolio,
+.darkMode .MuiListItem-container:not(:last-child) .MuiListItemText-multiline {
+  border-bottom: 1px solid #888 !important;
+}
+a {
+  font-weight: bold;
+  color: inherit;
+  text-decoration: none;
+}
+.MuiButton-textPrimary {
+  color: inherit !important;
+}
+.MuiDialog-paperFullWidth {
+  overflow: visible !important;
+}
+.MuiDialogTitle-root {
+  text-align: center;
+  background: #3f51b5;
+  color: #ffffff !important;
+  position: relative;
+  top: -20px;
+  border-radius: 5px;
+  width: 90%;
+  margin: auto !important;
+  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
+    0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+}
+.MuiDialogContent-root {
+  position: relative;
+  top: -15px;
+}
+.auth-card {
+  padding: 24px 24px 0px !important;
+}
+.auth-card .CardTop {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  position: relative;
+  text-align: center;
+  background: #3f51b5;
+  color: #ffffff !important;
+  top: -40px;
+  width: 90%;
+  padding: 8px 0px;
+  border-radius: 5px;
+  margin: auto !important;
+  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
+    0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+}
+.auth-card form {
+  position: relative;
+  top: -10px;
+}
+.MuiPaper-elevation1 {
+  overflow: visible !important;
 }

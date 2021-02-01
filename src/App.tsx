@@ -1,25 +1,62 @@
 import React from 'react';
-import logo from './logo.svg';
+import { makeStyles } from '@material-ui/core/styles';
+
 import './App.css';
+import { ItemProvider } from './context/ItemProvider'
+import ItemContext from './context/ItemContext';
+import { SnackbarProvider } from "notistack";
+import Layout from './components/Layout';
+import { Router } from "@reach/router"
+import ItemsMain from './components/items/ItemsMain';
+import Register from './components/auth/Register';
+import Login from './components/auth/Login';
+import EditProfile from './components/profile/EditProfile';
+
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: '100%'
+  },
+  list: {
+    textAlign: 'center',
+    marginTop: '20px',
+    width: '100%',
+  },
+  addModal: {
+    position: 'initial',
+    margin: '50px auto',
+    outline: '0',
+    width: 400,
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+  },
+}));
 
 function App() {
+
+  const classes = useStyles();
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ItemProvider>
+      <ItemContext.Consumer>
+        {context => (
+
+          <SnackbarProvider maxSnack={4}>
+            <Layout>
+              <Router>
+                <ItemsMain classes={classes} path="/" />
+                <Register classes={classes} path="/register" />
+                <Login classes={classes} path="/login" />
+                <EditProfile classes={classes} path="/edit-profile" />
+              </Router>
+            </Layout>
+          </SnackbarProvider>
+
+        )}
+
+      </ItemContext.Consumer>
+    </ItemProvider>
+
   );
 }
 
