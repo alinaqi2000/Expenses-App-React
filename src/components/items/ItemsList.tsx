@@ -42,7 +42,7 @@ export default function ItemsList(props: Props) {
       return navigate("/login")
     context.setToken(token)
     const resp: AxiosResponse<ApiResponse> = await axios.get<ApiResponse>(`${BASE_URL}verify_user?token=${token}`);
-    return resp.data.status === "ok" ? context.setUser(JSON.parse(resp.data.success)) : navigate("/login")
+    return resp.data.status ? context.setUser(resp.data.success) : navigate("/login")
   }
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -131,7 +131,7 @@ export default function ItemsList(props: Props) {
           {
             isLoading ? <CircularProgress /> :
               !context.items.length ? <Typography gutterBottom variant="h6"> No items in the list.  </Typography> :
-                context.items.map((item: I, i: number) => <Item key={item.id} index={i} item={item} />)
+                context.items.map((item: I, i: number) => <Item key={item._id} index={i} item={item} />)
           }
         </List>
       </CardContent>

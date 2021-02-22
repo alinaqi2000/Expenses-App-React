@@ -36,8 +36,8 @@ export default function Login(props: Props) {
         if (token) {
             context.setToken(token)
             const resp: AxiosResponse<ApiResponse> = await axios.get<ApiResponse>(`${BASE_URL}verify_user?token=${token}`);
-            if (resp.data.status === "ok") {
-                context.setUser(JSON.parse(resp.data.success))
+            if (resp.data.status) {
+                context.setUser(resp.data.success)
                 return navigate("/")
             }
         }
@@ -49,8 +49,8 @@ export default function Login(props: Props) {
             return enqueueSnackbar("Please add a password.", { variant: 'error', anchorOrigin: { vertical: 'bottom', horizontal: 'center', }, });
 
         const resp: AxiosResponse<ApiResponse> = await axios.post<ApiResponse>(`${BASE_URL}auth/login`, form);
-        resp.data.status === "bad" && enqueueSnackbar(resp.data.message, { variant: 'error', anchorOrigin: { vertical: 'bottom', horizontal: 'center', }, });
-        return resp.data.status === "ok" && setUser(resp.data.success)
+        !resp.data.status && enqueueSnackbar(resp.data.message, { variant: 'error', anchorOrigin: { vertical: 'bottom', horizontal: 'center', }, });
+        return resp.data.status && setUser(resp.data.success)
     }
     const setUser = (token: string) => {
         context.setToken(token)
@@ -99,7 +99,7 @@ export default function Login(props: Props) {
                                         onClick={onSubmitForm}
                                     >
                                         Login
-                </Button>
+                                    </Button>
                                 </Grid>
                             </div>
                         </form>

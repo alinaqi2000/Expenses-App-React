@@ -11,7 +11,6 @@ import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/picker
 import DateFnsUtils from '@date-io/date-fns';
 import { AddCircleTwoTone } from '@material-ui/icons';
 import SaveTwoToneIcon from '@material-ui/icons/SaveTwoTone';
-import moment from 'moment';
 import { Item } from '../../models/Item';
 import { useSnackbar } from 'notistack';
 import Input from '@material-ui/core/Input';
@@ -32,13 +31,14 @@ export default function AddItemDialog(props: Props) {
             return enqueueSnackbar("Please add valid amount.", { variant: 'error', anchorOrigin: { vertical: 'bottom', horizontal: 'center', }, });
         var item: Item
         if (context.currentIndex === -1)
-            item = new Item("", context.user.id, context.currentItem.title, context.currentItem.amount, moment(context.currentItem.date).format("MMM DD, YYYY"))
+            item = new Item((Math.random() * 1000).toString(), context.user._id, context.currentItem.title, context.currentItem.amount, context.currentItem.date.toString())
         else
-            item = new Item(context.currentItem.id, context.currentItem.user_id, context.currentItem.title, context.currentItem.amount, moment(context.currentItem.date).format("MMM DD, YYYY"))
-
+            item = new Item(context.currentItem._id, context.currentItem.user, context.currentItem.title, context.currentItem.amount, context.currentItem.date.toString())
+        console.log(item);
+        
         context.addItem(item).then((resp: any) => {
-            enqueueSnackbar(resp.message, { variant: resp.status === "bad" ? 'error' : 'success', anchorOrigin: { vertical: 'bottom', horizontal: 'center', }, });
-            resp.status !== "bad" && context.fetchChartData()
+            enqueueSnackbar(resp.message, { variant: !resp.status ? 'error' : 'success', anchorOrigin: { vertical: 'bottom', horizontal: 'center', }, });
+            resp.status && context.fetchChartData()
         })
     }
     return (

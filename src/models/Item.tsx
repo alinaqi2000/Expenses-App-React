@@ -1,10 +1,10 @@
 export class Item {
     constructor(
-        public id: string,
-        public user_id: string,
+        public _id: string,
+        public user: string,
         public title: string,
         public amount: string,
-        public date: Date | string | null
+        public date: Date| string 
 
     ) { }
 }

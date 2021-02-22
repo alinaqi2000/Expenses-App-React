@@ -60,7 +60,7 @@ export default function Layout(props: Props) {
             <CssBaseline />
             <AppBar position="static">
                 <Toolbar style={{ justifyContent: "space-between" }}>
-                    <Typography variant="h6">
+                    <Typography onClick={()=>navigate('/')} variant="h6">
                         Expenses App
                           </Typography>
                     <div style={{ display: "flex" }}>

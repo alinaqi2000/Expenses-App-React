@@ -17,7 +17,6 @@ interface RegisterForm {
     email: string
     password: string
     image_url: string
-    created_at: string
 }
 interface Props {
     path: string
@@ -27,7 +26,7 @@ export default function Register(props: Props) {
     const { enqueueSnackbar, closeSnackbar } = useSnackbar();
     const context: ItemCtx = useContext(ItemContext)
 
-    const [form, setForm] = useState<RegisterForm>({ name: "", email: "", password: "", image_url: "", created_at: "", })
+    const [form, setForm] = useState<RegisterForm>({ name: "", email: "", password: "", image_url: "" })
     const handleInputChange = (key: string, value: string) => {
         setForm({ ...form, [key]: value })
     }
@@ -39,8 +38,8 @@ export default function Register(props: Props) {
         if (token) {
             context.setToken(token)
             const resp: AxiosResponse<ApiResponse> = await axios.get<ApiResponse>(`${BASE_URL}verify_user?token=${token}`);
-            if (resp.data.status === "ok") {
-                context.setUser(JSON.parse(resp.data.success))
+            if (resp.data.status) {
+                context.setUser(resp.data.success)
                 return navigate("/")
             }
         }
@@ -54,10 +53,9 @@ export default function Register(props: Props) {
             return enqueueSnackbar("Please add a password.", { variant: 'error', anchorOrigin: { vertical: 'bottom', horizontal: 'center', }, });
         // if (!form.image_url)
         // return enqueueSnackbar("Please add valid image url.", { variant: 'error', anchorOrigin: { vertical: 'bottom', horizontal: 'center', }, });
-        form.created_at = `${new Date()}`;
         const resp: AxiosResponse<ApiResponse> = await axios.post<ApiResponse>(`${BASE_URL}auth/register`, form);
-        enqueueSnackbar(resp.data.message, { variant: resp.data.status === "ok" ? 'success' : 'error', anchorOrigin: { vertical: 'bottom', horizontal: 'center', }, });
-        return resp.data.status === "ok" && navigate("/login")
+        enqueueSnackbar(resp.data.message, { variant: resp.data.status ? 'success' : 'error', anchorOrigin: { vertical: 'bottom', horizontal: 'center', }, });
+        return resp.data.status && navigate("/login")
     }
     return (
         <Grid container style={{ justifyContent: "center" }} spacing={2}>

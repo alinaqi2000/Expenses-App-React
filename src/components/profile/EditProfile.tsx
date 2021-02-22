@@ -36,9 +36,9 @@ export default function EditProfile(props: Props) {
             return navigate("/login")
         context.setToken(token)
         const resp: AxiosResponse<ApiResponse> = await axios.get<ApiResponse>(`${BASE_URL}verify_user?token=${token}`);
-        if (resp.data.status === "ok") {
-            setForm(JSON.parse(resp.data.success))
-            context.setUser(JSON.parse(resp.data.success))
+        if (resp.data.status) {
+            setForm(resp.data.success)
+            context.setUser(resp.data.success)
         } else
             navigate("/login")
     }
@@ -51,9 +51,11 @@ export default function EditProfile(props: Props) {
             return enqueueSnackbar("Please add a password.", { variant: 'error', anchorOrigin: { vertical: 'bottom', horizontal: 'center', }, });
         // if (!form.image_url)
         // return enqueueSnackbar("Please add valid image url.", { variant: 'error', anchorOrigin: { vertical: 'bottom', horizontal: 'center', }, });
-        const resp: AxiosResponse<ApiResponse> = await axios.put<ApiResponse>(`${BASE_URL}users`, form);
-        enqueueSnackbar(resp.data.message, { variant: resp.data.status === "ok" ? 'success' : 'error', anchorOrigin: { vertical: 'bottom', horizontal: 'center', }, });
-        resp.data.status === "ok" && context.setUser(form)
+        const id = form._id; 
+        delete form._id;
+        const resp: AxiosResponse<ApiResponse> = await axios.put<ApiResponse>(`${BASE_URL}update_profile?token=${context.token}`, form);
+        enqueueSnackbar(resp.data.message, { variant: resp.data.status ? 'success' : 'error', anchorOrigin: { vertical: 'bottom', horizontal: 'center', }, });
+        resp.data.status && context.setUser({ ...form, _id:id})
     }
     return (
         <Grid container style={{ justifyContent: "center" }} spacing={2}>
@@ -80,7 +82,7 @@ export default function EditProfile(props: Props) {
                                     onClick={() => navigate("/")}
                                 >
                                     Back
-             </Button>
+                                </Button>
 
                             </div>
                         </div>

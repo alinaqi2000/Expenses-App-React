@@ -6,11 +6,12 @@ import { User } from '../models/User';
 import ItemContext, { ItemCtx, initialContext } from './ItemContext';
 
 export interface ApiResponse {
-    status: string
+    status: any
     message?: string
     success?: any
 }
-export const BASE_URL = "http://localhost:8080/";
+// export const BASE_URL = "http://localhost:4001/api/v2/";
+export const BASE_URL = "https://expenses-api-alinaqi2000.vercel.app/api/v2/";
 export class ItemProvider extends Component {
     state: ItemCtx = initialContext
     render() {
@@ -33,11 +34,11 @@ export class ItemProvider extends Component {
                     fetchChartData: async () => {
                         const token = localStorage.getItem("authToken")
                         const resp = await axios.get<ApiResponse>(`${BASE_URL}items/chart?token=${token}`)
-                        resp.data.status === "ok" && this.setState({ chartData: resp.data.success })
+                        resp.data.status && this.setState({ chartData: resp.data.success })
                     },
                     fetchItems: () => {
                         axios.get<ApiResponse>(`${BASE_URL}items?token=${this.state.token}`).then(resp => {
-                            if (resp.data.status === 'ok')
+                            if (resp.data.status)
                                 this.setState({ items: resp.data.success })
                         })
                     },
@@ -55,9 +56,10 @@ export class ItemProvider extends Component {
                     addItem: async (item: Item) => {
                         if (this.state.currentIndex === -1) {
                             this.setState({ items: [...this.state.items, item], currentItem: initialContext.currentItem, dialogOpen: false })
+                          
                             const resp: AxiosResponse<ApiResponse> = await axios.post<ApiResponse>(`${BASE_URL}items?token=${this.state.token}`, { ...item });
                             const new_items = this.state.items
-                            new_items[this.state.items.length - 1].id = resp.data.status
+                            new_items[this.state.items.length - 1]._id = resp.data.status
                             this.setState({
                                 items: [...new_items],
                             })
@@ -72,13 +74,13 @@ export class ItemProvider extends Component {
                                 currentItem: initialContext.currentItem,
                                 dialogOpen: false
                             })
-                            const resp_1: AxiosResponse<ApiResponse> = await axios.put<ApiResponse>(`${BASE_URL}items?token=${this.state.token}`, { ...item });
+                            const resp_1: AxiosResponse<ApiResponse> = await axios.put<ApiResponse>(`${BASE_URL}items/${item._id}?token=${this.state.token}`, { ...item });
                             return resp_1.data
                         }
                     },
                     deleteItem: async (index: number) => {
                         const new_items = this.state.items
-                        const id = new_items[index].id
+                        const id = new_items[index]._id
                         new_items.splice(index, 1)
                         this.setState({
                             items: [...new_items]

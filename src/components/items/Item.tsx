@@ -12,6 +12,7 @@ import { useSnackbar } from 'notistack';
 import { ApiResponse } from '../../context/ItemProvider';
 import EditTwoToneIcon from '@material-ui/icons/EditTwoTone';
 import DeleteTwoToneIcon from '@material-ui/icons/DeleteTwoTone';
+import moment from 'moment';
 
 interface Props {
     item: I
@@ -23,8 +24,8 @@ export default function Item(props: Props) {
 
     const deleteItem = () => {
         context.deleteItem(props.index).then((resp: ApiResponse) => {
-            enqueueSnackbar(resp.message, { variant: resp.status === "ok" ? 'success' : 'error', anchorOrigin: { vertical: 'bottom', horizontal: 'center', }, });
-            resp.status === "ok" && context.fetchChartData()
+            enqueueSnackbar(resp.message, { variant: resp.status ? 'success' : 'error', anchorOrigin: { vertical: 'bottom', horizontal: 'center', }, });
+            resp.status && context.fetchChartData()
 
         })
     }
@@ -38,7 +39,7 @@ export default function Item(props: Props) {
                     </Typography>
                 </Avatar>
             </ListItemAvatar>
-            <ListItemText primary={props.item.title} secondary={props.item.date} />
+            <ListItemText primary={props.item.title} secondary={moment(props.item.date).format("MMM DD, YYYY")} />
             <ListItemSecondaryAction>
                 <IconButton onClick={() => context.setItem(props.item, props.index)} edge="end" aria-label="delete">
                     <EditTwoToneIcon />
