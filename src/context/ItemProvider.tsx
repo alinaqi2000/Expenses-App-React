@@ -11,7 +11,7 @@ export interface ApiResponse {
     success?: any
 }
 // export const BASE_URL = "http://localhost:4001/api/v2/";
-export const BASE_URL = "https://expenses-api-alinaqi2000.vercel.app/api/v2/";
+export const BASE_URL = "https://expesnse-app-express-api.vercel.app/api/v2/";
 export class ItemProvider extends Component {
     state: ItemCtx = initialContext
     render() {
